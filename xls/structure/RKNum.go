@@ -11,7 +11,10 @@ type RKNum [4]byte
 func (r *RKNum) number() (intNum int64, floatNum float64, isFloat bool) {
 	rk := helpers.BytesToUint32(r[:])
 
-	val := uint64(rk >> 2)
+	var val int32
+		binary.Read(bytes.NewBuffer(r[:]), binary.LittleEndian, &val)
+		val >>= 2
+	
 	rkType := uint(rk << 30 >> 30)
 
 	var fn float64
